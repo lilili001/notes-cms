@@ -28,7 +28,7 @@
 
         </div>
         <div id="doc-body" >
-
+            <div class="toc" id="toc" data-toc="h1, h2, h3"></div>
         <div id="page_md_content" ><Editormd v-bind:content="content" v-if="content" type="html"></Editormd></div>
         </div>
 
@@ -125,8 +125,45 @@
     padding: 0px;
     font-size: 16px;
   }
-</style>
 
+
+
+</style>
+<style>
+    #toc {
+        display: block;
+        position: fixed;
+        top: 90px;
+        right: 0px;
+        min-width: 100px;
+        max-width: 180px;
+        max-height: 450px;
+        overflow-y: scroll;
+        border: none;
+        border-radius: 0 0 1px 1px;
+        -moz-border-radius: 0 0 1px 1px;
+        background: rgba(249,249,249,0.75);
+        padding: 10px
+    }
+    #toc>ul{padding:0}
+    #toc ul {
+        font-size: 12px
+    }
+
+    .toc ul li.toc-h2 {
+        margin-left: 10px
+    }
+    .toc  ul li.toc-h3 {
+        margin-left: 20px
+    }
+
+    .toc ul li a {
+        color: #333;
+        display:block;
+        line-height: 22px;
+    }
+
+</style>
 <script>
 import Editormd from '@/components/common/Editormd'
 import BackToTop from '@/components/common/BackToTop'

@@ -7,14 +7,18 @@
         <el-aside class="el-aside" id="left-side">
             <LeftMenu :get_page_content="get_page_content" :item_info="item_info" :search_item="search_item" v-if="item_info" ></LeftMenu>
         </el-aside>
-        
+
+
+
         <el-container class="right-side" id="right-side">
  
 
           <el-header >
             <div class="header-left">
                  <i class="el-icon-menu header-left-btn" id="header-left-btn" @click="switch_menu"></i>
-            </div> 
+            </div>
+
+
 
             <div class="header-right">
               <!-- 登录的事情下 -->
@@ -42,23 +46,26 @@
 
 
           </el-header>
-          
+
+          <div class="page-bar"  v-show="show_page_bar && item_info.ItemPermn && item_info.is_archived < 1 " >
+            <PageBar v-if="page_id" :page_id="page_id" :item_id='item_info.item_id' :page_info="page_info"></PageBar>
+          </div>
+
+          <div id="toc"></div>
+
           <el-main class="page_content_main" id="page_content_main">
              <div class="doc-title-box"  v-if="page_id">
                 <span id="doc-title-span" class="dn"></span>
                 <h2 id="doc-title">{{page_title}}</h2>
             </div>
-              <Editormd v-bind:content="content" type="html"  v-if="page_id" ></Editormd>
 
+              <Editormd v-bind:content="content" type="html" class="markdown-content-111"  v-if="page_id" ></Editormd>
+            <!--<div class="toc" id="toc" data-toc="h1, h2, h3"></div>-->
           </el-main>
 
-          
         </el-container>
 
-        <div class="page-bar" v-show="show_page_bar && item_info.ItemPermn && item_info.is_archived < 1 " >
-          <PageBar v-if="page_id" :page_id="page_id" :item_id='item_info.item_id' :page_info="page_info"></PageBar>
-        </div>
-        
+
       </el-container>
 
       <BackToTop  > </BackToTop>
@@ -90,6 +97,11 @@
   import BackToTop from '@/components/common/BackToTop'
   import LeftMenu from '@/components/item/show/show_regular_item/LeftMenu'
   import PageBar from '@/components/item/show/show_regular_item/PageBar'
+
+  if (typeof window !== 'undefined') {
+      var $s = require('scriptjs');
+  }
+
   export default {
     props:{
       item_info:'',
@@ -99,6 +111,7 @@
       return {
         content:"###正在加载...",
         page_id:'',
+
         page_title:'',
         dialogVisible:false,
         share_item_link:'',
@@ -168,7 +181,7 @@
         var element = document.getElementById('left-side') ;
         element.style.display = 'block' ;
         var element = document.getElementById('right-side') ;
-        element.style.marginLeft = '300px'; 
+        element.style.marginLeft = '200px';
         var element = document.getElementById('page_content_main') ;
         element.style.width = '800px' ; 
     },
@@ -198,6 +211,7 @@
         this.AdaptToMobile();
       });
     }
+
   }
 };
 </script>
@@ -226,13 +240,12 @@
     color: #333;
     position:fixed;
     top: 100px;
-    right: 10px;
+    right: 180px;
     width: 100px;
   }
 
   .page_content_main{
     width:800px;
-    margin: 0 auto ;
     height: 50%;
     overflow: visible;
   }
@@ -264,6 +277,42 @@
     margin-left: -15px;
     cursor: pointer;
     position: fixed;
+  }
+
+</style>
+
+<style>
+  #toc {
+    display: block;
+    position: fixed;
+    top: 90px;
+    right: 0px;
+    min-width: 100px;
+    max-width: 180px;
+    max-height: 450px;
+    overflow-y: scroll;
+    border: none;
+    border-radius: 0 0 1px 1px;
+    -moz-border-radius: 0 0 1px 1px;
+    background: rgba(249,249,249,0.75);
+    padding: 10px
+  }
+  #toc>ul{padding:0}
+  #toc ul {
+    font-size: 12px
+  }
+
+  .toc ul li.toc-h2 {
+    margin-left: 10px
+  }
+  .toc  ul li.toc-h3 {
+    margin-left: 20px
+  }
+
+  .toc ul li a {
+    color: #333;
+    display:block;
+    line-height: 22px;
   }
 
 </style>

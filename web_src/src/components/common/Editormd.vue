@@ -80,6 +80,7 @@ export default {
     
     //加载依赖""
     $s([`${this.editorPath}/../jquery.min.js`,
+
     	`${this.editorPath}/lib/raphael.min.js`,
     	`${this.editorPath}/lib/flowchart.min.js`,
 
@@ -91,15 +92,21 @@ export default {
 	      `${this.editorPath}/lib/underscore.min.js`,
 		    `${this.editorPath}/lib/sequence-diagram.min.js`,
 		    `${this.editorPath}/lib/jquery.flowchart.min.js`,
+
 	    ], () => {
 	       
 	      $s(`${this.editorPath}/editormd.js`, () => {
 	        this.initEditor();
+
+
+
 	      });
 
 	      $s(`${this.editorPath}/../highlight/highlight.min.js`, () => {
 	        hljs.initHighlightingOnLoad();
 	      });
+
+
 
     });
     
@@ -127,6 +134,11 @@ export default {
             //window.addEventListener('beforeunload', e => this.beforeunloadHandler(e));
           } else {
             this.instance = editorMD.markdownToHTML(this.id, this.editorConfig);
+             $s(`${this.editorPath}/toc.js`,()=>{
+                 $('#toc').toc();
+             });
+
+
           }
           this.deal_with_content();
         } 
